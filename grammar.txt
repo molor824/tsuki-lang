@@ -1,0 +1,28 @@
+﻿expr -> compiletime | actions
+actions -> initialize | mutate | literals | array | funcCall | fieldAccess | group | binary | unary
+    | if | while | for | loop | scope
+scope -> '{' expr ";" * '}'
+if -> 'if' actions scope ('elif' actions scope)* ('else' scope)?
+while -> 'while' actions scope ('else' scope)?
+for -> 'for' (actions? ';' actions? ';' actions?) | ('var'? IDENT ':' actions) scope ('else' scope)?
+loop -> 'loop' scope
+binary -> actions binaryOperators actions
+unary -> (actions unaryOperators) | (unaryOperators actions)
+group -> '(' actions ')'
+fieldAccess -> IDENT '.'? *
+funcCall -> fieldAccess '(' actions ','? * ')'
+array -> '[' actions ','? * ']'
+literals -> INT | FLOAT | STRING | CHAR
+initialize -> ('var' | 'const') IDENT IDENT? ('=' actions)?
+mutate -> fieldAccess '=' actions
+compiletime -> include | definitions
+definitions -> typedef | funcdef | moduledef
+typedef -> 'public'? 'type' IDENT IDENT | '{' 'public'? IDENT IDENT ('=' action)? ';' * '}'
+funcdef -> 'public'? 'func' IDENT '(' IDENT IDENT ('=' action)? ','? * ')' IDENT? scope
+moduledef -> 'module' IDENT '{' compiletime * '}'
+include -> 'public'? 'include' IDENT
+binaryOperators -> '+' | '-' | '*' | '/'
+    | '&&' | '||' | '&' | '|' | '^'
+    | '<' | '>' | '==' | '!=' | '<=' | '>='
+unaryOperators -> '++' | '--' | '-'
+    | '+=' | '-=' | '*=' | '/=' | '!'

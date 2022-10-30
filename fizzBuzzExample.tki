@@ -1,0 +1,28 @@
+﻿include io;
+
+main {
+    io.println("Insert number to iterate");
+
+    var fizz = 3;
+    var buzz = 5;
+    // int32 is a module instead of type so its lowercase
+    var n = int32.parse(io.input());
+    
+    for var i = 1; i <= n; i++ {
+        var isFizzBuzz = false;
+    
+        if i % fizz == 0 {
+            io.print("Fizz");
+            isFizzBuzz = true;
+        }
+        if i % buzz == 0 {
+            io.print("Buzz");
+            isFizzBuzz = true;
+        }
+        if !isFizzBuzz {
+            io.print(i);
+        }
+        
+        io.newline();
+    }
+}

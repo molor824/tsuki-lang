@@ -1,0 +1,98 @@
+include io;
+
+// typedef
+type Double Float64;
+
+// modules and functions have lowerCase
+module vector2 {
+    public type Vector2 {
+        public x Float32,
+        public y Float32
+    }
+
+    public func new(x Float32, y Float32) Vector2 {
+        <- Vector2 {
+            x = x,
+            y = y
+        };
+    }
+    // you create methods by naming the first parameter `this`
+    public func toString(this Vector2) String {
+        <- io.sprintf("(%v, %v)", this.x, this.y);
+    }
+
+    // operator overloading coming soon, this is planned way to do it for now
+    public func __ADD__(lh Vector2, rh Vector2) Vector2 {
+        <- new(lh.x + rh.x, lh.y + rh.y);
+    }
+}
+
+main {
+    io.println("Hello World!");
+
+    // variable
+    var a = 2;
+    var b = 1;
+    var c = "test";
+    var d = false;
+    
+    // array
+    var arr = Int32[] {2, 5, 1};
+    
+    // explicit typing
+    // all types have UpperCase
+    var explicit Int32[] = Int32[] {1, 3, 5, 7};
+    
+    // referencing a lvalue will allocate it on heap
+    // reference counter will automatically free it
+    var heap = &3;
+    
+    // printing type
+    io.println("%t", heap); // output: Int32*
+
+    // printing with formats
+    // %v default format, prints out contents of struct when tostring() isn't overloaded
+    // %d integer printing
+    // %s string printing
+    io.println("%d, %d, %s, %v", a, b, c, d);
+    
+    // escape characters test
+    var test = "new\nline\ttab should be newline aswell unicode: \u2588";
+    
+    // unicode test
+    var greeting = "hello";
+    var greetingJp = "こんにちは!";
+    
+    // operators test
+    var someNum = (2 + 1) / 6 * (2 - 5 * 1);
+
+    // float test
+    var test = 2.5 + 0.0 - 1.;
+    
+    // literal test
+    var test1 = 0xff + 0b01100011 - 2.25e-4;
+
+    // custom structs
+    var a = vector2.new(10, 10);
+    var b vector2.Vector2 = vector2.new(-10, 2);
+    
+    io.println("%v", a + b);
+    
+    // if condition
+    if 2 == 2 {
+        io.println("2 is 2");
+    } elif 2 == 5 {
+        io.println("2 is 5");
+    } else {
+        io.println("idk");
+    }
+    // pattern matching (will implement later)
+    /*
+    io.println(2 is {
+        2: "normal",
+        3: "cursed",
+        _: "wtf is even going on anymore"
+    });
+    var isCursed = 2 is !2; // same as `var isCursed = 2 != 2`
+    */
+}
